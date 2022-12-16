@@ -78,11 +78,11 @@
 	</head>
 	<body class="inline">
 		<a-scene webxr="optionalFeatures: hit-test, dom-overlay; overlayElement:#overlay;" physics="debug: false">
-			<a-assets>
+			<!-- <a-assets>
 				<a-assets-item id="ball" src="./assets/glock.gltf"></a-assets-item>
-			</a-assets>
+			</a-assets> -->
 			<!-- <a-sphere id="ball" dynamic-body radius="0.1" color="orange" position="0.1 2.36 -1.5"></a-sphere> -->
-			<a-gltf-model src="#ball" position="0.1 2.36 -1.5"></a-sphere>
+			<a-gltf-model src="./assets/glock.gltf" position="0.1 2.36 -1.5"></a-gltf-model>
 			<a-entity id="hoop" rotation="90 0 0" position="0 2 -1.8" hide-in-ar-mode> 
 				<a-torus scale="0.6 0.6 0.6" position="0 0.173 -0.1" color="#43A367" radius="0.25" radius-tubular="0.005"></a-torus>
 				<a-torus scale="0.6 0.6 0.6" static-body="shape: mesh;" position="0 0.173 -0.1" visible="false" radius="0.27" radius-tubular="0.02" material="" geometry="radius: 0.29; segmentsRadial: 5; segmentsTubular: 12"></a-torus>
@@ -184,28 +184,28 @@
 				scene.xrSession.end();
 			});
 
-			scene.addEventListener("enter-vr", () => {
-				const domOverlay = hasDomOverlay(scene.xrSession);
-				document.getElementById('text').setAttribute('text', 'value', 'Overlay: ' + domOverlay);
-				document.body.classList.remove("inline");
-				if (scene.is("ar-mode")) {
-					document.body.classList.add("ar-preparing");
-					reticle.setAttribute('ar-hit-test', 'doHitTest:true');
-					reticle.setAttribute('visible', 'true');
-				} else {
-					document.body.classList.add("playing");
-					reticle.setAttribute('ar-hit-test', 'doHitTest:false');
-					reticle.setAttribute('visible', 'false');
-				}
-			});
+			// scene.addEventListener("enter-vr", () => {
+			// 	const domOverlay = hasDomOverlay(scene.xrSession);
+			// 	document.getElementById('text').setAttribute('text', 'value', 'Overlay: ' + domOverlay);
+			// 	document.body.classList.remove("inline");
+			// 	if (scene.is("ar-mode")) {
+			// 		document.body.classList.add("ar-preparing");
+			// 		reticle.setAttribute('ar-hit-test', 'doHitTest:true');
+			// 		reticle.setAttribute('visible', 'true');
+			// 	} else {
+			// 		document.body.classList.add("playing");
+			// 		reticle.setAttribute('ar-hit-test', 'doHitTest:false');
+			// 		reticle.setAttribute('visible', 'false');
+			// 	}
+			// });
 
-			scene.addEventListener("exit-vr", () => {
-				document.body.classList.add("inline");
-				document.body.classList.remove("playing");
-				document.body.classList.remove("ar-preparing");
-				reticle.setAttribute('ar-hit-test', 'doHitTest:false');
-				reticle.setAttribute('visible', 'false');
-			});
+			// scene.addEventListener("exit-vr", () => {
+			// 	document.body.classList.add("inline");
+			// 	document.body.classList.remove("playing");
+			// 	document.body.classList.remove("ar-preparing");
+			// 	reticle.setAttribute('ar-hit-test', 'doHitTest:false');
+			// 	reticle.setAttribute('visible', 'false');
+			// });
 
 			reticle.addEventListener('select', function (e) {
 				const domOverlay = hasDomOverlay(scene.xrSession);
