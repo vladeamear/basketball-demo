@@ -189,28 +189,28 @@
 				scene.xrSession.end();
 			});
 
-			// scene.addEventListener("enter-vr", () => {
-			// 	const domOverlay = hasDomOverlay(scene.xrSession);
-			// 	document.getElementById('text').setAttribute('text', 'value', 'Overlay: ' + domOverlay);
-			// 	document.body.classList.remove("inline");
-			// 	if (scene.is("ar-mode")) {
-			// 		document.body.classList.add("ar-preparing");
-			// 		reticle.setAttribute('ar-hit-test', 'doHitTest:true');
-			// 		reticle.setAttribute('visible', 'true');
-			// 	} else {
-			// 		document.body.classList.add("playing");
-			// 		reticle.setAttribute('ar-hit-test', 'doHitTest:false');
-			// 		reticle.setAttribute('visible', 'false');
-			// 	}
-			// });
+			scene.addEventListener("enter-vr", () => {
+				const domOverlay = hasDomOverlay(scene.xrSession);
+				document.getElementById('text').setAttribute('text', 'value', 'Overlay: ' + domOverlay);
+				document.body.classList.remove("inline");
+				if (scene.is("ar-mode")) {
+					document.body.classList.add("ar-preparing");
+					reticle.setAttribute('ar-hit-test', 'doHitTest:true');
+					reticle.setAttribute('visible', 'true');
+				} else {
+					document.body.classList.add("playing");
+					reticle.setAttribute('ar-hit-test', 'doHitTest:false');
+					reticle.setAttribute('visible', 'false');
+				}
+			});
 
-			// scene.addEventListener("exit-vr", () => {
-			// 	document.body.classList.add("inline");
-			// 	document.body.classList.remove("playing");
-			// 	document.body.classList.remove("ar-preparing");
-			// 	reticle.setAttribute('ar-hit-test', 'doHitTest:false');
-			// 	reticle.setAttribute('visible', 'false');
-			// });
+			scene.addEventListener("exit-vr", () => {
+				document.body.classList.add("inline");
+				document.body.classList.remove("playing");
+				document.body.classList.remove("ar-preparing");
+				reticle.setAttribute('ar-hit-test', 'doHitTest:false');
+				reticle.setAttribute('visible', 'false');
+			});
 
 			reticle.addEventListener('select', function (e) {
 				const domOverlay = hasDomOverlay(scene.xrSession);
