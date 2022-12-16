@@ -88,12 +88,12 @@
 				<a-asset-item id="glock-model" src="./assets/glock.gltf"></a-asset-item>
 			</a-assets>
 			<a-entity gltf-model="#dictofon-model" id="dictofon" dynamic-body scale="0.02 0.02 0.02" position="0.1 2.36 -1.5"></a-entity>
-			<a-entity gltf-model="#glock-model" id="glock" scale="0.05 0.05 0.05" rotation="0 0 90" hide-in-ar-mode></a-entity>
-			<a-entity id="glock-hitbox" geometry="primitive: box" static-body scale="1 0.5 1" hide-in-ar-mode></a-entity>
+			<a-entity gltf-model="#glock-model" id="glock" static-body scale="0.05 0.05 0.05" rotation="0 0 90" hide-in-ar-mode></a-entity>
+			<!-- <a-entity id="glock-hitbox" geometry="primitive: box" static-body scale="1 0.5 1" hide-in-ar-mode></a-entity> -->
 
 			<a-entity ar-hit-test="doHitTest:false" visible="false">
 				<a-plane
-					rotation="-90 0 0"
+					rotation="0 0 90"
 					width="0.2"
 					height="0.2"
 					src="./arrow.png"
@@ -139,7 +139,7 @@
 		<script>
 			const reticle = document.querySelector("[ar-hit-test]");
 			const glock = document.getElementById('glock');
-			const glockHitBox = document.getElementById('glock-hitbox');
+			// const glockHitBox = document.getElementById('glock-hitbox');
 			const instructions = document.getElementById('instructions');
 			const dictofon = document.getElementById('dictofon');
 			const button = document.getElementById('go-button');
@@ -166,13 +166,13 @@
 			function positionGlock() {
 				glock.setAttribute("position", reticle.getAttribute("position"));
 				glock.setAttribute("visible", true);
-				glockHitBox.setAttribute("position", reticle.getAttribute("position"));
-				glockHitBox.setAttribute("visible", true);
+				// glockHitBox.setAttribute("position", reticle.getAttribute("position"));
+				// glockHitBox.setAttribute("visible", true);
 				tempVector.set(0, 0 ,-1);
 				tempVector.applyQuaternion(reticle.object3D.quaternion);
 				tempQuaternion.setFromUnitVectors(tempVector, upVector);
 				glock.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
-				glockHitBox.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
+				// glockHitBox.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
 			};
 
 			exit.addEventListener('click', function () {
