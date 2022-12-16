@@ -84,10 +84,10 @@
 			<!-- <a-sphere id="glock" dynamic-body radius="0.1" color="orange" position="0.1 2.36 -1.5"></a-sphere> -->
 			<!-- <a-gltf-model src="./assets/glock.gltf" position="0.1 2.36 -1.5"></a-gltf-model> -->
 			<a-assets>
-				<a-asset-item id="glock" src="./assets/glock.gltf" position="0.1 2.36 -1.5"></a-asset-item>
+				<a-asset-item id="glock" src="./assets/glock.gltf"></a-asset-item>
 			</a-assets>
 			<!-- use your gltf model -->
-			<a-entity gltf-model="#glock" scale="0.01 0.01 0.01"></a-entity>
+			<a-entity gltf-model="#glock" scale="0.01 0.01 0.01" position="0.1 2.36 -1.5"></a-entity>
 			<a-entity id="hoop" rotation="90 0 0" position="0 2 -1.8" hide-in-ar-mode> 
 				<a-torus scale="0.6 0.6 0.6" position="0 0.173 -0.1" color="#43A367" radius="0.25" radius-tubular="0.005"></a-torus>
 				<a-torus scale="0.6 0.6 0.6" static-body="shape: mesh;" position="0 0.173 -0.1" visible="false" radius="0.27" radius-tubular="0.02" material="" geometry="radius: 0.29; segmentsRadial: 5; segmentsTubular: 12"></a-torus>
