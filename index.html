@@ -83,12 +83,12 @@
 				<a-asset-item id="glock-model" src="./assets/glock.gltf"></a-asset-item>
 			</a-assets>
 			<a-entity gltf-model="#dictofon-model" id="dictofon" dynamic-body scale="0.02 0.02 0.02" position="0.1 2.36 -1.5"></a-entity>
-			<a-marker preset="hiro">
-				<a-entity gltf-model="#glock-model" id="glock" scale="0.05 0.05 0.05" position="0 0.5 0" rotation="0 0 0" hide-in-ar-mode></a-entity>
-				<a-entity id="glock-hitbox" geometry="primitive: box" static-body position="0 0.5 0" scale="1 0.5 1" hide-in-ar-mode></a-entity>
-			</a-marker>
+			<!-- <a-marker preset="hiro">
+			</a-marker> -->
+			<a-entity gltf-model="#glock-model" id="glock" scale="0.05 0.05 0.05" position="0 0.5 0" rotation="0 0 0" hide-in-ar-mode></a-entity>
+			<a-entity id="glock-hitbox" geometry="primitive: box" static-body position="0 0.5 0" scale="1 0.5 1" hide-in-ar-mode></a-entity>
 
-			<!-- <a-entity ar-hit-test="doHitTest:false" visible="false">
+			<a-entity ar-hit-test="doHitTest:false" visible="false">
 				<a-plane
 					rotation="-90 0 0"
 					width="0.2"
@@ -96,7 +96,7 @@
 					src="./arrow.png"
 					material="transparent:true;"
 				></a-plane>
-			</a-entity> -->
+			</a-entity>
 			<a-sky color="skyblue" hide-in-ar-mode></a-sky>
 			<a-plane
 				rotation="-90 0 0"
@@ -134,7 +134,7 @@
 			</div>
 		</div>
 		<script>
-			// const reticle = document.querySelector("[ar-hit-test]");
+			const reticle = document.querySelector("[ar-hit-test]");
 			const glock = document.getElementById('glock');
 			// const glockHitBox = document.getElementById('glock-hitbox');
 			const instructions = document.getElementById('instructions');
@@ -161,15 +161,15 @@
 			}
 
 			function positionGlock() {
-				// glock.setAttribute("position", reticle.getAttribute("position"));
+				glock.setAttribute("position", reticle.getAttribute("position"));
 				glock.setAttribute("visible", true);
-				// glockHitBox.setAttribute("position", reticle.getAttribute("position"));
+				glockHitBox.setAttribute("position", reticle.getAttribute("position"));
 				glockHitBox.setAttribute("visible", true);
 				tempVector.set(0, 0 ,-1);
-				// tempVector.applyQuaternion(reticle.object3D.quaternion);
+				tempVector.applyQuaternion(reticle.object3D.quaternion);
 				tempQuaternion.setFromUnitVectors(tempVector, upVector);
-				// glock.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
-				// glockHitBox.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
+				glock.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
+				glockHitBox.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
 			};
 
 			exit.addEventListener('click', function () {
@@ -182,12 +182,12 @@
 				document.body.classList.remove("inline");
 				if (scene.is("ar-mode")) {
 					document.body.classList.add("ar-preparing");
-					// reticle.setAttribute('ar-hit-test', 'doHitTest:true');
-					// reticle.setAttribute('visible', 'true');
+					reticle.setAttribute('ar-hit-test', 'doHitTest:true');
+					reticle.setAttribute('visible', 'true');
 				} else {
 					document.body.classList.add("playing");
-					// reticle.setAttribute('ar-hit-test', 'doHitTest:false');
-					// reticle.setAttribute('visible', 'false');
+					reticle.setAttribute('ar-hit-test', 'doHitTest:false');
+					reticle.setAttribute('visible', 'false');
 				}
 			});
 
@@ -195,41 +195,41 @@
 				document.body.classList.add("inline");
 				document.body.classList.remove("playing");
 				document.body.classList.remove("ar-preparing");
-				// reticle.setAttribute('ar-hit-test', 'doHitTest:false');
-				// reticle.setAttribute('visible', 'false');
+				reticle.setAttribute('ar-hit-test', 'doHitTest:false');
+				reticle.setAttribute('visible', 'false');
 			});
 
-			// reticle.addEventListener('select', function (e) {
-			// 	const domOverlay = hasDomOverlay(scene.xrSession);
-			// 	if (document.body.classList.contains("playing")) {
-			// 		const pose = e.detail.pose;
-			// 		dictofon.body.position.copy(pose.transform.position);
-			// 		// dictofon.body.position.y += 0.2;
-			// 		tempVector.set(0, 0 ,-5);
-			// 		tempVector.applyQuaternion(pose.transform.orientation);
-			// 		dictofon.body.velocity.copy(tempVector);
-			// 		return;
-			// 	}
+			reticle.addEventListener('select', function (e) {
+				const domOverlay = hasDomOverlay(scene.xrSession);
+				if (document.body.classList.contains("playing")) {
+					const pose = e.detail.pose;
+					dictofon.body.position.copy(pose.transform.position);
+					// dictofon.body.position.y += 0.2;
+					tempVector.set(0, 0 ,-5);
+					tempVector.applyQuaternion(pose.transform.orientation);
+					dictofon.body.velocity.copy(tempVector);
+					return;
+				}
 
-			// 	if (domOverlay) {
-			// 		setTimeout(() => {
-			// 			if (document.body.classList.contains("playing")) {
-			// 				return;
-			// 			} else {
-			// 				positionGlock();
-			// 			}
-			// 		}, 50);
-			// 	} else {
-			// 		if (document.body.classList.contains("playing")) {
-			// 			return;
-			// 		} else {
-			// 			if (this.components["ar-hit-test"].hasFoundAPose) {
-			// 				positionGlock();
-			// 				readyToStartPlay(e);
-			// 			}
-			// 		}
-			// 	}
-			// });
+				if (domOverlay) {
+					setTimeout(() => {
+						if (document.body.classList.contains("playing")) {
+							return;
+						} else {
+							positionGlock();
+						}
+					}, 50);
+				} else {
+					if (document.body.classList.contains("playing")) {
+						return;
+					} else {
+						if (this.components["ar-hit-test"].hasFoundAPose) {
+							positionGlock();
+							readyToStartPlay(e);
+						}
+					}
+				}
+			});
 
 			function readyToStartPlay(e) {
 				e.preventDefault();
@@ -239,8 +239,8 @@
 				if (document.body.classList.contains("ar-preparing")) {
 					document.body.classList.remove("ar-preparing");
 					document.body.classList.add("playing");
-					// reticle.setAttribute('ar-hit-test', 'doHitTest:false');
-					// reticle.setAttribute('visible', 'false');
+					reticle.setAttribute('ar-hit-test', 'doHitTest:false');
+					reticle.setAttribute('visible', 'false');
 					return;
 				}
 			}
