@@ -85,7 +85,7 @@
 			<a-entity gltf-model="#dictofon-model" id="dictofon" dynamic-body scale="0.02 0.02 0.02" position="0.1 2.36 -1.5"></a-entity>
 			<!-- <a-marker preset="hiro">
 			</a-marker> -->
-			<a-entity gltf-model="#glock-model" id="glock" scale="0.05 0.05 0.05" rotation="0 0 0" hide-in-ar-mode></a-entity>
+			<a-entity gltf-model="#glock-model" id="glock" scale="0.05 0.05 0.05" rotation="90 10 10" hide-in-ar-mode></a-entity>
 			<a-entity
 				id="glock-hitbox"
 				geometry="primitive: box"
@@ -150,7 +150,7 @@
 		<script>
 			const reticle = document.querySelector("[ar-hit-test]");
 			const glock = document.getElementById('glock');
-			// const glockHitBox = document.getElementById('glock-hitbox');
+			const glockHitBox = document.getElementById('glock-hitbox');
 			const instructions = document.getElementById('instructions');
 			const dictofon = document.getElementById('dictofon');
 			const button = document.getElementById('go-button');
