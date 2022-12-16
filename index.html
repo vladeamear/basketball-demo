@@ -84,11 +84,13 @@
 			<!-- <a-sphere id="glock" dynamic-body radius="0.1" color="orange" position="0.1 2.36 -1.5"></a-sphere> -->
 			<!-- <a-gltf-model src="./assets/glock.gltf" position="0.1 2.36 -1.5"></a-gltf-model> -->
 			<a-assets>
-				<a-asset-item id="glock-model" src="./assets/dictofon.gltf"></a-asset-item>
+				<a-asset-item id="dictofon-model" src="./assets/dictofon.gltf"></a-asset-item>
+				<a-asset-item id="glock-model" src="./assets/glock.gltf"></a-asset-item>
 			</a-assets>
 			<!-- use your gltf model -->
-			<a-entity gltf-model="#glock-model" id="glock" dynamic-body scale="0.02 0.02 0.02" position="0.1 2.36 -1.5"></a-entity>
-			<a-entity id="hoop" rotation="90 0 0" position="0 2 -1.8" hide-in-ar-mode> 
+			<a-entity gltf-model="#dictofon-model" id="dictofon" dynamic-body scale="0.02 0.02 0.02" position="0.1 2.36 -1.5"></a-entity>
+			<a-entity gltf-model="#glock-model" id="glock" scale="0.05 0.05 0.05" hide-in-ar-mode></a-entity>
+			<!-- <a-entity id="hoop" rotation="90 0 0" position="0 2 -1.8" hide-in-ar-mode> 
 				<a-torus scale="0.6 0.6 0.6" position="0 0.173 -0.1" color="#43A367" radius="0.25" radius-tubular="0.005"></a-torus>
 				<a-torus scale="0.6 0.6 0.6" static-body="shape: mesh;" position="0 0.173 -0.1" visible="false" radius="0.27" radius-tubular="0.02" material="" geometry="radius: 0.29; segmentsRadial: 5; segmentsTubular: 12"></a-torus>
 				<a-plane
@@ -103,7 +105,8 @@
 				></a-plane>
 				<a-plane scale="0.6 0.6 0.6" position="0 0 1.12355" rotation="-90 0 0" width="2" height="3" static-body geometry="height: 4.37" visible="false"></a-plane>
 				<a-cone scale="0.6 0.6 0.6" position="0 0.173 -0.010" color="tomato" radius-bottom="0.25" radius-top="0.3" material="side: double; opacity:0.5; transparent: true;" geometry="height: 0.29; openEnded: true" rotation="90 0 0"></a-cone>
-			</a-entity>
+			</a-entity> -->
+
 			<a-entity ar-hit-test="doHitTest:false" visible="false">
 				<a-plane
 					rotation="-90 0 0"
@@ -133,9 +136,9 @@
 		</a-scene>
 		<div id="overlay" class="container">
 			<div id="ar-instructions">
-				<h1>Welcome To Basketglock</h1>
+				<h1>Welcome To Glockdictofon</h1>
 				<section class="overlay-content">
-					<p id="instructions">Place the basket along a wall</p>
+					<p id="instructions">Place the Glock along a wall</p>
 				</section>
 				<div style="display: flex; justify-content: space-between; align-self: stretch;">
 					<button id="go-button">Ready to Play!</button>
@@ -143,7 +146,7 @@
 				</div>
 			</div>
 			<div id="inline-instructions">
-				<h1>Welcome To Basketglock</h1>
+				<h1>Welcome To Glockdictofon</h1>
 				<section class="overlay-content">
 					<p>Enter AR to Start Playing</p>
 				</section>
@@ -151,9 +154,9 @@
 		</div>
 		<script>
 			const reticle = document.querySelector("[ar-hit-test]");
-			const hoop = document.getElementById('hoop');
-			const instructions = document.getElementById('instructions');
 			const glock = document.getElementById('glock');
+			const instructions = document.getElementById('instructions');
+			const dictofon = document.getElementById('dictofon');
 			const button = document.getElementById('go-button');
 			const exit = document.getElementById('exit-button');
 			const upVector = new THREE.Vector3(0, 1, 0);
@@ -175,13 +178,13 @@
 				return true;
 			}
 
-			function positionHoop() {
-				hoop.setAttribute("position", reticle.getAttribute("position"));
-				hoop.setAttribute("visible", true);
+			function positionGlock() {
+				glock.setAttribute("position", reticle.getAttribute("position"));
+				glock.setAttribute("visible", true);
 				tempVector.set(0, 0 ,-1);
 				tempVector.applyQuaternion(reticle.object3D.quaternion);
 				tempQuaternion.setFromUnitVectors(tempVector, upVector);
-				hoop.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
+				glock.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
 			};
 
 			exit.addEventListener('click', function () {
@@ -215,11 +218,11 @@
 				const domOverlay = hasDomOverlay(scene.xrSession);
 				if (document.body.classList.contains("playing")) {
 					const pose = e.detail.pose;
-					glock.body.position.copy(pose.transform.position);
-					// glock.body.position.y += 0.2;
+					dictofon.body.position.copy(pose.transform.position);
+					// dictofon.body.position.y += 0.2;
 					tempVector.set(0, 0 ,-5);
 					tempVector.applyQuaternion(pose.transform.orientation);
-					glock.body.velocity.copy(tempVector);
+					dictofon.body.velocity.copy(tempVector);
 					return;
 				}
 
@@ -228,7 +231,7 @@
 						if (document.body.classList.contains("playing")) {
 							return;
 						} else {
-							positionHoop();
+							positionGlock();
 						}
 					}, 50);
 				} else {
@@ -236,7 +239,7 @@
 						return;
 					} else {
 						if (this.components["ar-hit-test"].hasFoundAPose) {
-							positionHoop();
+							positionGlock();
 							readyToStartPlay(e);
 						}
 					}
@@ -245,8 +248,8 @@
 
 			function readyToStartPlay(e) {
 				e.preventDefault();
-				if (hoop.getAttribute("visible") === false) {
-					positionHoop();
+				if (glock.getAttribute("visible") === false) {
+					positionGlock();
 				}
 				if (document.body.classList.contains("ar-preparing")) {
 					document.body.classList.remove("ar-preparing");
