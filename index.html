@@ -79,18 +79,25 @@
 	<body class="inline">
 		<a-scene webxr="optionalFeatures: hit-test, dom-overlay; overlayElement:#overlay;" physics="debug: false">
 			<a-assets>
-				<a-asset-item id="dictofon-model" src="./assets/dictofon.gltf"></a-asset-item>
-				<a-asset-item id="glock-model" src="./assets/glock.gltf"></a-asset-item>
+				<a-asset-item
+					id="dictofon-model"
+					src="./assets/dictofon.gltf"
+				></a-asset-item>
+				<a-asset-item
+					id="glock-model"
+					src="./assets/glock.gltf"
+				></a-asset-item>
 			</a-assets>
-			<a-entity gltf-model="#dictofon-model" id="dictofon" dynamic-body scale="0.02 0.02 0.02" position="0.1 2.36 -1.5"></a-entity>
+			<a-entity gltf-model="#dictofon-model" id="dictofon" dynamic-body scale="0.05 0.05 0.05" position="0.1 2.36 -1.5"></a-entity>
 			<!-- <a-marker preset="hiro">
 			</a-marker> -->
-			<a-entity gltf-model="#glock-model" id="glock" scale="0.05 0.05 0.05" rotation="90 10 10" hide-in-ar-mode></a-entity>
+			<!-- <a-entity gltf-model="#glock-model" id="glock" scale="0.05 0.05 0.05" rotation="90 10 10" hide-in-ar-mode></a-entity> -->
 			<a-entity
-				id="glock-hitbox"
+				id="glock"
 				geometry="primitive: box"
 				static-body
 				scale="1 0.5 1"
+				material="color: red"
 				hide-in-ar-mode
 			></a-entity>
 			<!-- <a-entity
@@ -150,8 +157,9 @@
 		<script>
 			const reticle = document.querySelector("[ar-hit-test]");
 			const glock = document.getElementById('glock');
-			const glockHitBox = document.getElementById('glock-hitbox');
+			// const glockHitBox = document.getElementById('glock-hitbox');
 			const instructions = document.getElementById('instructions');
+			const inlineInstructions = document.getElementById('inline-instructions');
 			const dictofon = document.getElementById('dictofon');
 			const button = document.getElementById('go-button');
 			const exit = document.getElementById('exit-button');
@@ -177,14 +185,20 @@
 			function positionGlock() {
 				glock.setAttribute("position", reticle.getAttribute("position"));
 				glock.setAttribute("visible", true);
-				glockHitBox.setAttribute("position", reticle.getAttribute("position"));
-				glockHitBox.setAttribute("visible", true);
+				// glockHitBox.setAttribute("position", reticle.getAttribute("position"));
+				// glockHitBox.setAttribute("visible", true);
 				tempVector.set(0, 0 ,-1);
 				tempVector.applyQuaternion(reticle.object3D.quaternion);
 				tempQuaternion.setFromUnitVectors(tempVector, upVector);
 				glock.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
-				glockHitBox.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
+				// glockHitBox.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
 			};
+
+			let nOfCollisions = 0;
+
+			glock.addEventListener('physicscollided', function (event) {
+				inlineInstructions.innerHTML = `${nOfCollisions++} Entity collided with ${event.detail.collidingEntity}`
+			})
 
 			exit.addEventListener('click', function () {
 				scene.xrSession.end();
