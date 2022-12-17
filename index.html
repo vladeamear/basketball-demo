@@ -138,7 +138,7 @@
 		</a-scene>
 		<div id="overlay" class="container">
 			<div id="ar-instructions">
-				<h1>Welcome To Glockdictofon 1</h1>
+				<h1 id="in-ar-title">Welcome To Glockdictofon 1</h1>
 				<section class="overlay-content">
 					<p id="instructions">Place the Glock along a wall</p>
 				</section>
@@ -159,7 +159,7 @@
 			const glock = document.getElementById('glock');
 			// const glockHitBox = document.getElementById('glock-hitbox');
 			const instructions = document.getElementById('instructions');
-			const inlineInstructions = document.getElementById('ar-instructions');
+			const inArTitle = document.getElementById('in-ar-title');
 			const dictofon = document.getElementById('dictofon');
 			const button = document.getElementById('go-button');
 			const exit = document.getElementById('exit-button');
@@ -194,11 +194,10 @@
 				// glockHitBox.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
 			};
 
-			// let nOfCollisions = 0;
+			let nOfCollisions = 0;
 
 			glock.addEventListener('collide', (e) => {
-				// inlineInstructions.innerHTML = `${nOfCollisions++} Entity collided with ${event.detail.collidingEntity}`
-				inlineInstructions.innerHTML = 'Entity collided with'
+				inArTitle.innerText = `${nOfCollisions++} Entity collided`;
 			})
 
 			exit.addEventListener('click', function () {
