@@ -197,7 +197,8 @@
 			let nOfCollisions = 0;
 
 			glock.addEventListener('physicscollided', function (event) {
-				inlineInstructions.innerHTML = `${nOfCollisions++} Entity collided with ${event.detail.collidingEntity}`
+				// inlineInstructions.innerHTML = `${nOfCollisions++} Entity collided with ${event.detail.collidingEntity}`
+				inlineInstructions.innerHTML = `Entity collided with`
 			})
 
 			exit.addEventListener('click', function () {
