@@ -20,7 +20,13 @@
 					src="./assets/glock.gltf"
 				></a-asset-item>
 			</a-assets>
-			<a-entity gltf-model="#dictofon-model" id="dictofon" dynamic-body scale="0.05 0.05 0.05" position="0.1 2.36 -1.5"></a-entity>
+			<a-entity
+				gltf-model="#dictofon-model"
+				id="dictofon"
+				dynamic-body
+				scale="0.05 0.05 0.05" 
+				position="0.1 2.36 -1.5"
+			></a-entity>
 			<!-- <a-marker preset="hiro">
 			</a-marker> -->
 			<!-- <a-entity gltf-model="#glock-model" id="glock" scale="0.05 0.05 0.05" rotation="90 10 10" hide-in-ar-mode></a-entity> -->
@@ -59,19 +65,22 @@
 
 			<a-entity ar-hit-test="doHitTest:false" visible="false">
 				<a-plane
+					rotation="-90 0 0"
 					width="0.2"
 					height="0.2"
+					src="./arrow.png"
+					material="transparent:true;"
 				></a-plane>
 			</a-entity>
-			<a-sky color="skyblue" hide-in-ar-mode></a-sky>
-			<a-plane
+			<!-- <a-sky color="skyblue" hide-in-ar-mode></a-sky> -->
+			<!-- <a-plane
 				rotation="-90 0 0"
 				width="20"
 				height="20"
 				color="#43A367"
 				static-body
 				hide-in-ar-mode
-			></a-plane>
+			></a-plane> -->
 			<a-camera>
 				<a-entity
 					id="text"
@@ -148,9 +157,10 @@
 
 			currentEnemy.addEventListener('collide', (e) => {
 				// const n = nOfCollisions++;
-				const [x, y] = [getRandomInt(10), getRandomInt(10)]
-				inArTitle.innerText = `${JSON.stringify(currentEnemy.getAttribute("position"))}`;
-				currentEnemy.object3D.position.set(x,y,0);
+				// const [x, y] = [getRandomInt(10), getRandomInt(10)]
+				// inArTitle.innerText = `${JSON.stringify(currentEnemy.getAttribute("position"))}`;
+				// currentEnemy.object3D.position.set(x,y,0);
+				currentEnemy.parentNode.removeChild(currentEnemy);
 				// currentEnemy = possibleEnemies[1];
 				// inArTitle.innerText = `${x} ${y} Entity collided`;
 			})
