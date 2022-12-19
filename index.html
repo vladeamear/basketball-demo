@@ -200,10 +200,10 @@
 				e.preventDefault();
 				if (target.getAttribute("visible") === false) {
 					positionEnemy();
-					// setTimeout(() => {
-					// 	scene.xrSession.end();
+					setTimeout(() => {
+						scene.xrSession.end();
 						
-					// }, 20000);
+					}, 20000);
 				}
 				if (document.body.classList.contains("ar-preparing")) {
 					document.body.classList.remove("ar-preparing");
