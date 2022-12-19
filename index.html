@@ -24,7 +24,7 @@
 				gltf-model="#dictofon-model"
 				id="dictofon"
 				dynamic-body
-				scale="0.05 0.05 0.05" 
+				scale="0.03 0.03 0.03" 
 				position="0.1 2.36 -1.5"
 			></a-entity>
 			<a-entity
@@ -87,6 +87,14 @@
 			function getRandomInt(max) {
 				return Math.floor(Math.random() * max);
 			}
+			function getRandomColor() {
+				var letters = '0123456789ABCDEF';
+				var color = '#';
+				for (var i = 0; i < 6; i++) {
+					color += letters[Math.floor(Math.random() * 16)];
+				}
+				return color;
+			}
 
 			const possibleEnemies = document.querySelectorAll('[geometry]');
 			let currentEnemy = possibleEnemies[0];
@@ -118,17 +126,17 @@
 				// glockHitBox.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
 			};
 
-			// let nOfCollisions = 0;
+			let nOfCollisions = 0;
 
 			currentEnemy.addEventListener('collide', (e) => {
-				// const n = nOfCollisions++;
+				const n = nOfCollisions++;
 				// const [x, y] = [getRandomInt(10), getRandomInt(10)]
 				// inArTitle.innerText = `${JSON.stringify(currentEnemy.getAttribute("position"))}`;
 				// currentEnemy.object3D.position.set(x,y,0);
 				// currentEnemy.parentNode.removeChild(currentEnemy);
-				currentEnemy.setAttribute('material', 'color: green')
+				currentEnemy.setAttribute('material', `color: ${getRandomColor()}`)
 				// currentEnemy = possibleEnemies[1];
-				// inArTitle.innerText = `${x} ${y} Entity collided`;
+				inArTitle.innerText = `${n} Entity collided`;
 			})
 
 			exit.addEventListener('click', function () {
