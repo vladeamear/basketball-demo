@@ -100,7 +100,6 @@
 			const tempQuaternion = new THREE.Quaternion();
 			const scene = document.querySelector('a-scene');
 			const target = document.getElementById('target');
-			const nickname = document.getElementById('nickname').value;
 
 			const possibleThrowAways = document.querySelectorAll('[gltf-model]');
 			let throwAway = possibleThrowAways[getRandomInt(possibleThrowAways.length - 1)];
@@ -202,7 +201,6 @@
 					positionEnemy();
 					setTimeout(() => {
 						scene.xrSession.end();
-						
 					}, 20000);
 				}
 				if (document.body.classList.contains("ar-preparing")) {
