@@ -115,7 +115,7 @@
 			const scene = document.querySelector('a-scene');
 
 			const possibleEnemies = document.querySelectorAll('[geometry]');
-			const currentEnemy = possibleEnemies[getRandomInt(possibleEnemies.length - 1)];
+			let currentEnemy = possibleEnemies[getRandomInt(possibleEnemies.length - 1)];
 
 
 			function hasDomOverlay(session) {
@@ -148,6 +148,7 @@
 
 			currentEnemy.addEventListener('collide', (e) => {
 				const n = nOfCollisions++;
+				currentEnemy = possibleEnemies[getRandomInt(possibleEnemies.length - 1)];
 				inArTitle.innerText = `${n} Entity collided`;
 			})
 
