@@ -5,7 +5,7 @@
 		<link rel="stylesheet" href="style.css">
 		<script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
 		<script src="ar-components.js"></script>
-		<script src="helpers.js"></script>
+		<!-- <script src="helpers.js"></script> -->
 		<script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
 	</head>
 	<body class="inline">
@@ -148,8 +148,8 @@
 
 			currentEnemy.addEventListener('collide', (e) => {
 				const n = nOfCollisions++;
-				const z = currentEnemy.getAttribute("position").split(' ')[2]
-				currentEnemy.setAttribute("position", `${getRandomInt(10)} ${getRandomInt(10)} ${z}`);
+				// const z = currentEnemy.getAttribute("position").split(' ')[2]
+				currentEnemy.setAttribute("position", `${getRandomInt(10)} ${getRandomInt(10)} 0`);
 				// currentEnemy = possibleEnemies[1];
 				// inArTitle.innerText = `${n} Entity collided`;
 				inArTitle.innerText = `${currentEnemy.getAttribute("position")}`;
