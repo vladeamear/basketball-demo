@@ -67,6 +67,9 @@
 				<section class="overlay-content">
 					<p id="instructions">Разместите мишень на стене</p>
 				</section>
+				<section class="ingame-overlay">
+					<p id="timer"></p>
+				</section>
 				<div style="display: flex; justify-content: space-between; align-self: stretch;">
 					<button id="go-button">Готов к игре!</button>
 					<button id="exit-button">Остановить игру</button>
@@ -75,6 +78,8 @@
 			<div id="inline-instructions">
 				<h1 class="first screen">Добро пожаловать!</h1>
 				<p>У вас будет 20 секунд чтобы набрать максимальное количество очков!</p>
+				<p>Предыдущий результат:</p>
+				<p id="res-output"></p>
 			</div>
 		</div>
 		<script>
@@ -100,6 +105,8 @@
 			const tempQuaternion = new THREE.Quaternion();
 			const scene = document.querySelector('a-scene');
 			const target = document.getElementById('target');
+			const timer = document.getElementById('timer');
+			const resOutput = document.getElementById('res-output');
 
 			const possibleThrowAways = document.querySelectorAll('[gltf-model]');
 			let throwAway = possibleThrowAways[getRandomInt(possibleThrowAways.length - 1)];
@@ -132,9 +139,9 @@
 
 			target.addEventListener('collide', (e) => {
 				const n = nOfCollisions++;
-				const amount = Math.floor(n / 4);
+				// const amount = Math.floor(n / 4);
 				target.setAttribute('material', `color: ${getRandomColor()}`);
-				inArTitle.innerText = `${nickname} | ${amount}`;
+				// inArTitle.innerText = `${nickname} | ${amount}`;
 			})
 
 			exit.addEventListener('click', function () {
@@ -199,9 +206,16 @@
 				e.preventDefault();
 				if (target.getAttribute("visible") === false) {
 					positionEnemy();
+					const seconds = 20;
+					const timerInterval = setInterval(() => {
+						timer.innerText = seconds--;
+					}, 1000);
 					setTimeout(() => {
+						clearInterval(timerInterval);
+						resOutput.innerText = Math.floor(nOfCollisions / 4);
 						scene.xrSession.end();
 					}, 20000);
+
 				}
 				if (document.body.classList.contains("ar-preparing")) {
 					document.body.classList.remove("ar-preparing");
