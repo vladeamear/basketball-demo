@@ -160,7 +160,8 @@
 				// const [x, y] = [getRandomInt(10), getRandomInt(10)]
 				// inArTitle.innerText = `${JSON.stringify(currentEnemy.getAttribute("position"))}`;
 				// currentEnemy.object3D.position.set(x,y,0);
-				currentEnemy.parentNode.removeChild(currentEnemy);
+				// currentEnemy.parentNode.removeChild(currentEnemy);
+				currentEnemy.setAttribute('material', 'color: green')
 				// currentEnemy = possibleEnemies[1];
 				// inArTitle.innerText = `${x} ${y} Entity collided`;
 			})
