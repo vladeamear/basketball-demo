@@ -144,15 +144,15 @@
 				// glockHitBox.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
 			};
 
-			let nOfCollisions = 0;
+			// let nOfCollisions = 0;
 
 			currentEnemy.addEventListener('collide', (e) => {
-				const n = nOfCollisions++;
+				// const n = nOfCollisions++;
 				const [x, y] = [getRandomInt(10), getRandomInt(10)]
-				currentEnemy.position.set(x,y,0);
+				currentEnemy.object3D.position.set(x,y,0);
 				// currentEnemy = possibleEnemies[1];
-				inArTitle.innerText = `${x} ${y} Entity collided`;
-				// inArTitle.innerText = `${currentEnemy.getAttribute("position")}`;
+				// inArTitle.innerText = `${x} ${y} Entity collided`;
+				inArTitle.innerText = `${JSON.stringify(currentEnemy.getAttribute("position"))}`;
 			})
 
 			exit.addEventListener('click', function () {
