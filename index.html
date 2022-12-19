@@ -136,8 +136,9 @@
 
 			target.addEventListener('collide', (e) => {
 				const n = nOfCollisions++;
+				const amount = Math.floor(n / 4);
 				target.setAttribute('material', `color: ${getRandomColor()}`);
-				inArTitle.innerText = `${n / 4} Entity collided`;
+				inArTitle.innerText = `${amount} ${amount === 1 ? 'попадание' : 'попаданий'}`;
 			})
 
 			exit.addEventListener('click', function () {
