@@ -67,9 +67,9 @@
 				<section class="overlay-content">
 					<p id="instructions">Разместите мишень на стене</p>
 				</section>
-				<section class="ingame-overlay">
+				<!-- <section class="ingame-overlay">
 					<p id="timer"></p>
-				</section>
+				</section> -->
 				<div style="display: flex; justify-content: space-between; align-self: stretch;">
 					<button id="go-button">Готов к игре!</button>
 					<button id="exit-button">Остановить игру</button>
@@ -105,7 +105,7 @@
 			const tempQuaternion = new THREE.Quaternion();
 			const scene = document.querySelector('a-scene');
 			const target = document.getElementById('target');
-			const timer = document.getElementById('timer');
+			// const timer = document.getElementById('timer');
 			const resOutput = document.getElementById('res-output');
 
 			const possibleThrowAways = document.querySelectorAll('[gltf-model]');
@@ -206,9 +206,11 @@
 				e.preventDefault();
 				if (target.getAttribute("visible") === false) {
 					positionEnemy();
+					button.disabled = true
 					const seconds = 20;
 					const timerInterval = setInterval(() => {
-						timer.innerText = seconds--;
+						button.innerText = seconds;
+						seconds--
 					}, 1000);
 					setTimeout(() => {
 						clearInterval(timerInterval);
