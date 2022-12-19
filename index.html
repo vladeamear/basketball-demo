@@ -147,7 +147,8 @@
 				const n = nOfCollisions++;
 				currentEnemy.setAttribute("position", "0 1 0");
 				// currentEnemy = possibleEnemies[1];
-				inArTitle.innerText = `${n} Entity collided`;
+				// inArTitle.innerText = `${n} Entity collided`;
+				inArTitle.innerText = `${currentEnemy.getAttribute("position")}`;
 			})
 
 			exit.addEventListener('click', function () {
