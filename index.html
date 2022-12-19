@@ -2,76 +2,7 @@
 <html>
 	<head>
 		<title>Basketglock Game</title>
-		<style>
-			body {
-				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-			}
-
-			#overlay {
-				position: absolute;
-				top: 0;
-				left: 0;
-				right: 0;
-				bottom: 0;
-				padding: 1em;
-				
-				display: flex;
-				flex-direction: column;
-				justify-items: flex-start;
-				align-items: flex-start;
-
-				pointer-events: none;
-				user-select: none;
-			}
-
-			button {
-				appearance: none;
-				background: rgba(153, 135, 135, 0.267);
-				color: white;
-				border: 4px solid;
-				padding: 0.5em;
-				font-size: 1.5em;
-				border-radius: 2em;
-				user-select: none;
-				pointer-events: auto;
-				align-self: center;
-			}
-
-			h1 {
-				font-size: 1.5em;
-				background: rgba(153, 135, 135, 0.267);
-				color: white;
-			}
-
-			.overlay-content {
-				flex-grow: 1;
-			}
-
-			p {
-				font-size: 1.5em;
-				background: rgba(153, 135, 135, 0.267);
-				color: white;
-			}
-
-			#ar-instructions, #inline-instructions {
-				display: none;
-			}
-
-			body.inline #inline-instructions {
-				display: contents;
-			}
-
-			body.playing #ar-instructions,
-			body.ar-preparing #ar-instructions {
-				display: contents;
-			}
-
-			body.playing #go-button, 
-			body.playing #instructions {
-				visibility: hidden;
-			}
-
-		</style>
+		<link rel="stylesheet" href="style.css">
 		<script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
 		<script src="ar-components.js"></script>
 		<script src="helpers.js"></script>
@@ -94,18 +25,26 @@
 			</a-marker> -->
 			<!-- <a-entity gltf-model="#glock-model" id="glock" scale="0.05 0.05 0.05" rotation="90 10 10" hide-in-ar-mode></a-entity> -->
 			<a-entity
-				id="glock"
+				id="box"
 				geometry="primitive: box"
 				static-body
-				scale="1 0.5 1"
+				scale="0.7 0.7 0.7"
 				material="color: red"
 				hide-in-ar-mode
 			></a-entity>
 			<a-entity
-				id="glock2"
-				geometry="primitive: sphere; radius: 2"
+				id="sphere"
+				geometry="primitive: sphere"
 				static-body
-				scale="1 1 1"
+				scale="0.7 0.7 0.7"
+				material="color: green"
+				hide-in-ar-mode
+			></a-entity>
+			<a-entity
+				id="cylinder"
+				geometry="primitive: cylinder"
+				static-body
+				scale="0.7 0.7 0.7"
 				material="color: green"
 				hide-in-ar-mode
 			></a-entity>
@@ -165,9 +104,6 @@
 		</div>
 		<script>
 			const reticle = document.querySelector("[ar-hit-test]");
-			// const gluck = document.getElementById('glock');
-			// const gluck2 = document.getElementById('glock2');
-			// const glockHitBox = document.getElementById('glock-hitbox');
 			const instructions = document.getElementById('instructions');
 			const inArTitle = document.getElementById('in-ar-title');
 			const dictofon = document.getElementById('dictofon');
@@ -179,8 +115,7 @@
 			const scene = document.querySelector('a-scene');
 
 			const possibleEnemies = document.querySelectorAll('[geometry]');
-			// const currentEnemy = possibleEnemies[getRandomInt(possibleEnemies.length - 1)];
-			const currentEnemy = possibleEnemies[1];
+			const currentEnemy = possibleEnemies[getRandomInt(possibleEnemies.length - 1)];
 
 
 			function hasDomOverlay(session) {
@@ -213,7 +148,7 @@
 
 			currentEnemy.addEventListener('collide', (e) => {
 				const n = nOfCollisions++;
-				inArTitle.innerText = `${n/4} Entity collided`;
+				inArTitle.innerText = `${n} Entity collided`;
 			})
 
 			exit.addEventListener('click', function () {
