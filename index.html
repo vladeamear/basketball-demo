@@ -212,7 +212,8 @@
 			let nOfCollisions = 0;
 
 			currentEnemy.addEventListener('collide', (e) => {
-				inArTitle.innerText = `${nOfCollisions++ / 4} Entity collided`;
+				const n = nOfCollisions++;
+				inArTitle.innerText = `${n/4} Entity collided`;
 			})
 
 			exit.addEventListener('click', function () {
