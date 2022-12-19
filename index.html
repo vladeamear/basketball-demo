@@ -74,9 +74,7 @@
 			</div>
 			<div id="inline-instructions">
 				<h1 class="first screen">Добро пожаловать!</h1>
-				<p>Введите свой ник и войдите в AR режим чтобы начать</p>
-				<p>У вас будет 20 секунд!</p>
-				<input type="text" id="nickname" />
+				<p>У вас будет 20 секунд чтобы набрать максимальное количество очков!</p>
 			</div>
 		</div>
 		<script>
@@ -202,6 +200,10 @@
 				e.preventDefault();
 				if (target.getAttribute("visible") === false) {
 					positionEnemy();
+					setTimeout(() => {
+						scene.xrSession.end();
+						
+					}, 20000);
 				}
 				if (document.body.classList.contains("ar-preparing")) {
 					document.body.classList.remove("ar-preparing");
@@ -210,10 +212,6 @@
 					reticle.setAttribute('visible', 'false');
 					return;
 				}
-				setTimeout(() => {
-					scene.xrSession.end();
-					
-				}, 20000);
 			}
 
 			button.addEventListener('mousedown', readyToStartPlay);
