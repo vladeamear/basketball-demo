@@ -110,6 +110,9 @@
 			const tempVector = new THREE.Vector3();
 			const tempQuaternion = new THREE.Quaternion();
 			const scene = document.querySelector('a-scene');
+			function getRandomInt(max) {
+				return Math.floor(Math.random() * max);
+			}
 
 			const possibleEnemies = document.querySelectorAll('[geometry]');
 			let currentEnemy = possibleEnemies[0];
@@ -145,7 +148,8 @@
 
 			currentEnemy.addEventListener('collide', (e) => {
 				const n = nOfCollisions++;
-				currentEnemy.setAttribute("position", "0 1 0");
+				const z = currentEnemy.getAttribute("position").split(' ')[2]
+				currentEnemy.setAttribute("position", `${getRandomInt(10)} ${getRandomInt(10)} ${z}`);
 				// currentEnemy = possibleEnemies[1];
 				// inArTitle.innerText = `${n} Entity collided`;
 				inArTitle.innerText = `${currentEnemy.getAttribute("position")}`;
