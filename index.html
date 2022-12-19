@@ -64,20 +64,19 @@
 		</a-scene>
 		<div id="overlay" class="container">
 			<div id="ar-instructions">
-				<h1 id="in-ar-title">Welcome To Glockdictofon 1</h1>
 				<section class="overlay-content">
-					<p id="instructions">Place the Glock along a wall</p>
+					<p id="instructions">Разместите мишень на стене</p>
 				</section>
 				<div style="display: flex; justify-content: space-between; align-self: stretch;">
-					<button id="go-button">Ready to Play!</button>
-					<button id="exit-button">Stop AR</button>
+					<button id="go-button">Готов к игре!</button>
+					<button id="exit-button">Остановить игру</button>
 				</div>
 			</div>
 			<div id="inline-instructions">
-				<h1>Welcome To Glockdictofon 2</h1>
-				<section class="overlay-content">
-					<p>Enter AR to Start Playing</p>
-				</section>
+				<h1 class="first screen">Добро пожаловать!</h1>
+				<p>Введите свой ник и войдите в AR режим чтобы начать</p>
+				<p>У вас будет 20 секунд!</p>
+				<input type="text" id="nickname" />
 			</div>
 		</div>
 		<script>
@@ -96,7 +95,6 @@
 			const reticle = document.querySelector("[ar-hit-test]");
 			const instructions = document.getElementById('instructions');
 			const inArTitle = document.getElementById('in-ar-title');
-			// const dictofon = document.getElementById('dictofon');
 			const button = document.getElementById('go-button');
 			const exit = document.getElementById('exit-button');
 			const upVector = new THREE.Vector3(0, 1, 0);
@@ -104,6 +102,7 @@
 			const tempQuaternion = new THREE.Quaternion();
 			const scene = document.querySelector('a-scene');
 			const target = document.getElementById('target');
+			const nickname = document.getElementById('nickname').value;
 
 			const possibleThrowAways = document.querySelectorAll('[gltf-model]');
 			let throwAway = possibleThrowAways[getRandomInt(possibleThrowAways.length - 1)];
@@ -138,7 +137,7 @@
 				const n = nOfCollisions++;
 				const amount = Math.floor(n / 4);
 				target.setAttribute('material', `color: ${getRandomColor()}`);
-				inArTitle.innerText = `${amount} ${amount === 1 ? 'попадание' : 'попаданий'}`;
+				inArTitle.innerText = `${nickname} | ${amount}`;
 			})
 
 			exit.addEventListener('click', function () {
@@ -211,6 +210,10 @@
 					reticle.setAttribute('visible', 'false');
 					return;
 				}
+				setTimeout(() => {
+					scene.xrSession.end();
+					
+				}, 20000);
 			}
 
 			button.addEventListener('mousedown', readyToStartPlay);
