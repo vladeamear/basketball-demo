@@ -148,11 +148,11 @@
 
 			currentEnemy.addEventListener('collide', (e) => {
 				const n = nOfCollisions++;
-				// const z = currentEnemy.getAttribute("position").split(' ')[2]
+				const z = currentEnemy.getAttribute("position").split(' ')[2]
 				const [x, y] = [getRandomInt(10), getRandomInt(10)]
 				currentEnemy.setAttribute("position", `${x} ${y} 0`);
 				// currentEnemy = possibleEnemies[1];
-				inArTitle.innerText = `${x} ${y} Entity collided`;
+				inArTitle.innerText = `${x} ${y} ${z} Entity collided`;
 				// inArTitle.innerText = `${currentEnemy.getAttribute("position")}`;
 			})
 
