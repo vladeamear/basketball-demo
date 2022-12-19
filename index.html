@@ -145,7 +145,8 @@
 
 			currentEnemy.addEventListener('collide', (e) => {
 				const n = nOfCollisions++;
-				currentEnemy = possibleEnemies[1];
+				currentEnemy.setAttribute("position", "0 1 0");
+				// currentEnemy = possibleEnemies[1];
 				inArTitle.innerText = `${n} Entity collided`;
 			})
 
