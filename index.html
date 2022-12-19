@@ -28,7 +28,14 @@
 				position="0.1 2.36 -1.5"
 			></a-entity>
 			<a-entity
-				id="box"
+				gltf-model="#glock-model"
+				id="glock"
+				dynamic-body
+				scale="0.03 0.03 0.03" 
+				position="0.1 2.36 -1.5"
+			></a-entity>
+			<a-entity
+				id="target"
 				geometry="primitive: cylinder"
 				static-body
 				scale="0.09 0.02 0.09"
@@ -74,30 +81,32 @@
 			</div>
 		</div>
 		<script>
+			function getRandomColor() {
+				const letters = '0123456789ABCDEF';
+				let color = '#';
+				for (let i = 0; i < 6; i++) {
+					color += letters[Math.floor(Math.random() * 16)];
+				}
+				return color;
+			}
+			function getRandomInt(max) {
+				return Math.floor(Math.random() * max);
+			}
+
 			const reticle = document.querySelector("[ar-hit-test]");
 			const instructions = document.getElementById('instructions');
 			const inArTitle = document.getElementById('in-ar-title');
-			const dictofon = document.getElementById('dictofon');
+			// const dictofon = document.getElementById('dictofon');
 			const button = document.getElementById('go-button');
 			const exit = document.getElementById('exit-button');
 			const upVector = new THREE.Vector3(0, 1, 0);
 			const tempVector = new THREE.Vector3();
 			const tempQuaternion = new THREE.Quaternion();
 			const scene = document.querySelector('a-scene');
-			function getRandomInt(max) {
-				return Math.floor(Math.random() * max);
-			}
-			function getRandomColor() {
-				var letters = '0123456789ABCDEF';
-				var color = '#';
-				for (var i = 0; i < 6; i++) {
-					color += letters[Math.floor(Math.random() * 16)];
-				}
-				return color;
-			}
+			const target = document.getElementById('target');
 
-			const possibleEnemies = document.querySelectorAll('[geometry]');
-			let currentEnemy = possibleEnemies[0];
+			const possibleThrowAways = document.querySelectorAll('[gltf-model]');
+			let throwAway = possibleThrowAways[getRandomInt(possibleThrowAways.length - 1)];
 
 
 			function hasDomOverlay(session) {
@@ -115,27 +124,19 @@
 			}
 
 			function positionEnemy() {
-				currentEnemy.setAttribute("position", reticle.getAttribute("position"));
-				currentEnemy.setAttribute("visible", true);
-				// glockHitBox.setAttribute("position", reticle.getAttribute("position"));
-				// glockHitBox.setAttribute("visible", true);
+				target.setAttribute("position", reticle.getAttribute("position"));
+				target.setAttribute("visible", true);
 				tempVector.set(0, 0 ,-1);
 				tempVector.applyQuaternion(reticle.object3D.quaternion);
 				tempQuaternion.setFromUnitVectors(tempVector, upVector);
-				currentEnemy.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
-				// glockHitBox.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
+				target.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
 			};
 
 			let nOfCollisions = 0;
 
-			currentEnemy.addEventListener('collide', (e) => {
+			target.addEventListener('collide', (e) => {
 				const n = nOfCollisions++;
-				// const [x, y] = [getRandomInt(10), getRandomInt(10)]
-				// inArTitle.innerText = `${JSON.stringify(currentEnemy.getAttribute("position"))}`;
-				// currentEnemy.object3D.position.set(x,y,0);
-				// currentEnemy.parentNode.removeChild(currentEnemy);
-				currentEnemy.setAttribute('material', `color: ${getRandomColor()}`)
-				// currentEnemy = possibleEnemies[1];
+				target.setAttribute('material', `color: ${getRandomColor()}`);
 				inArTitle.innerText = `${n} Entity collided`;
 			})
 
@@ -170,11 +171,10 @@
 				const domOverlay = hasDomOverlay(scene.xrSession);
 				if (document.body.classList.contains("playing")) {
 					const pose = e.detail.pose;
-					dictofon.body.position.copy(pose.transform.position);
-					// dictofon.body.position.y += 0.2;
+					throwAway.body.position.copy(pose.transform.position);
 					tempVector.set(0, 0 ,-5);
 					tempVector.applyQuaternion(pose.transform.orientation);
-					dictofon.body.velocity.copy(tempVector);
+					throwAway.body.velocity.copy(tempVector);
 					return;
 				}
 
@@ -200,7 +200,7 @@
 
 			function readyToStartPlay(e) {
 				e.preventDefault();
-				if (currentEnemy.getAttribute("visible") === false) {
+				if (target.getAttribute("visible") === false) {
 					positionEnemy();
 				}
 				if (document.body.classList.contains("ar-preparing")) {
