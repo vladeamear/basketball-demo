@@ -74,6 +74,7 @@
 		</style>
 		<script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
 		<script src="ar-components.js"></script>
+		<script src="helpers.js"></script>
 		<script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
 	</head>
 	<body class="inline">
@@ -98,6 +99,14 @@
 				static-body
 				scale="1 0.5 1"
 				material="color: red"
+				hide-in-ar-mode
+			></a-entity>
+			<a-entity
+				id="glock2"
+				geometry="primitive: sphere; radius: 2"
+				static-body
+				scale="1 1 1"
+				material="color: green"
 				hide-in-ar-mode
 			></a-entity>
 			<!-- <a-entity
@@ -156,7 +165,8 @@
 		</div>
 		<script>
 			const reticle = document.querySelector("[ar-hit-test]");
-			const glock = document.getElementById('glock');
+			// const gluck = document.getElementById('glock');
+			// const gluck2 = document.getElementById('glock2');
 			// const glockHitBox = document.getElementById('glock-hitbox');
 			const instructions = document.getElementById('instructions');
 			const inArTitle = document.getElementById('in-ar-title');
@@ -167,6 +177,10 @@
 			const tempVector = new THREE.Vector3();
 			const tempQuaternion = new THREE.Quaternion();
 			const scene = document.querySelector('a-scene');
+
+			const possibleEnemies = document.querySelectorAll('[geometry]');
+			const currentEnemy = possibleEnemies[getRandomInt(possibleEnemies.length - 1)]
+
 
 			function hasDomOverlay(session) {
 				if (!session.domOverlayState) {
@@ -182,22 +196,22 @@
 				return true;
 			}
 
-			function positionGlock() {
-				glock.setAttribute("position", reticle.getAttribute("position"));
-				glock.setAttribute("visible", true);
+			function positionEnemy() {
+				currentEnemy.setAttribute("position", reticle.getAttribute("position"));
+				currentEnemy.setAttribute("visible", true);
 				// glockHitBox.setAttribute("position", reticle.getAttribute("position"));
 				// glockHitBox.setAttribute("visible", true);
 				tempVector.set(0, 0 ,-1);
 				tempVector.applyQuaternion(reticle.object3D.quaternion);
 				tempQuaternion.setFromUnitVectors(tempVector, upVector);
-				glock.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
+				currentEnemy.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
 				// glockHitBox.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
 			};
 
 			let nOfCollisions = 0;
 
-			glock.addEventListener('collide', (e) => {
-				inArTitle.innerText = `${nOfCollisions++} Entity collided`;
+			currentEnemy.addEventListener('collide', (e) => {
+				inArTitle.innerText = `${nOfCollisions++ / 4} Entity collided`;
 			})
 
 			exit.addEventListener('click', function () {
@@ -244,7 +258,7 @@
 						if (document.body.classList.contains("playing")) {
 							return;
 						} else {
-							positionGlock();
+							positionEnemy();
 						}
 					}, 50);
 				} else {
@@ -252,7 +266,7 @@
 						return;
 					} else {
 						if (this.components["ar-hit-test"].hasFoundAPose) {
-							positionGlock();
+							positionEnemy();
 							readyToStartPlay(e);
 						}
 					}
@@ -261,8 +275,8 @@
 
 			function readyToStartPlay(e) {
 				e.preventDefault();
-				if (glock.getAttribute("visible") === false) {
-					positionGlock();
+				if (currentEnemy.getAttribute("visible") === false) {
+					positionEnemy();
 				}
 				if (document.body.classList.contains("ar-preparing")) {
 					document.body.classList.remove("ar-preparing");
